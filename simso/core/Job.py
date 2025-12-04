@@ -2,7 +2,7 @@
 
 from SimPy.Simulation import Process, hold, passivate
 from simso.core.JobEvent import JobEvent
-from math import ceil
+from math import floor, ceil
 
 
 class Job(Process):
@@ -29,6 +29,8 @@ class Job(Process):
         """
         Process.__init__(self, name=name, sim=sim)
         self._task = task
+        self._m = task._task_info.m
+        self._k = task._task_info.k
         self._pred = pred
         self.instr_count = 0  # Updated by the cache model.
         self._computation_time = 0
@@ -48,6 +50,11 @@ class Job(Process):
         self._on_activate()
 
         self.context_ok = True  # The context is ready to be loaded.
+
+        self.instance_num = int(name.split("_")[1])
+        self.cri = floor(ceil(self.instance_num * self._m/ self._k) * (self._k / self._m))
+        self.mandatory = self.instance_num == self.cri
+        self.optional = not self.mandatory
 
     def is_active(self):
         """

@@ -20,7 +20,8 @@ class TaskInfo(object):
     def __init__(self, name, identifier, task_type, abort_on_miss, period,
                  activation_date, n_instr, mix, stack_file, wcet, acet,
                  et_stddev, deadline, base_cpi, followed_by,
-                 list_activation_dates, preemption_cost, data):
+                 list_activation_dates, preemption_cost, data,
+                 m=1, k=1):
         """
         :type name: str
         :type identifier: int
@@ -62,6 +63,9 @@ class TaskInfo(object):
         self.list_activation_dates = list_activation_dates
         self.data = data
         self.preemption_cost = preemption_cost
+
+        self.m = m
+        self.k = k
 
     @property
     def csdp(self):
@@ -272,7 +276,7 @@ class GenericTask(Process):
         directly by a scheduler.
         """
         self._job_count += 1
-        job = Job(self, "{}_{}".format(self.name, self._job_count), pred,
+        job = Job(self, "{}_{}".format(self.name, self._job_count - 1), pred, #-1 to be zero indexed
                   monitor=self._monitor, etm=self._etm, sim=self.sim)
 
         if len(self._activations_fifo) == 0:
