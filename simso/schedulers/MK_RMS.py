@@ -35,10 +35,9 @@ class MK_RMS(Scheduler):
             # Job with highest priority.
             job = min(self.ready_list, key=lambda x: (x.optional, x.period))
 
-            if (self.sim.now()/1000000 >= 25.0):
-                pass
+            if (((cpu_min.running is None) or (cpu_min.running.period > job.period)) and
+                not ((cpu_min.running is not None and cpu_min.running.mandatory) and job.optional)): # this check is to prevent a optional job preempting a mandatory job
 
-            if (((cpu_min.running is None) or (cpu_min.running.period > job.period)) and not ((cpu_min.running is not None and cpu_min.running.mandatory) and job.optional)):
                 self.ready_list.remove(job)
                 if cpu_min.running:
                     self.ready_list.append(cpu_min.running) # if it got preempted, add it back to the que
