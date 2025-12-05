@@ -5,7 +5,7 @@ from math import floor, ceil
 
 @scheduler("simso.schedulers.MK_RMS")
 class MK_RMS(Scheduler):
-    """ Rate monotonic """
+    """ Rate monotonic with (m,k)-firm requirements """
     def init(self):
         self.ready_list = []
 

@@ -7,7 +7,7 @@ from simso.schedulers import scheduler
 
 @scheduler("simso.schedulers.MK_EDF")
 class MK_EDF(Scheduler):
-    """Earliest Deadline First"""
+    """Earliest Deadline First with (m,k)-firm requirements"""
     def on_activate(self, job):
         job.cpu.resched()
 
