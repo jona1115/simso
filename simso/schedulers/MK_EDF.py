@@ -1,13 +1,14 @@
 """
-Implementation of the Global-EDF (Earliest Deadline First) for multiprocessor
-architectures.
+@author Jonathan Tan (@jona1115 on GitHub)
+@date 12/09/2025
 """
+
 from simso.core import Scheduler
 from simso.schedulers import scheduler
 
 @scheduler("simso.schedulers.MK_EDF")
 class MK_EDF(Scheduler):
-    """Earliest Deadline First with (m,k)-firm requirements"""
+    """Earliest Deadline First (EDF) with (m,k)-firm requirements"""
     def on_activate(self, job):
         job.cpu.resched()
 
@@ -20,7 +21,6 @@ class MK_EDF(Scheduler):
                       if t.is_active() and not t.job.is_running()]
 
         if ready_jobs:
-            ############### As far as I can tell this chunk is just selecting a CPU, so for uniprocessor, this chunk is junk ###############
             # Select a free processor or, if none,
             # the one with the greatest deadline (self in case of equality):
             key = lambda x: (
@@ -29,7 +29,6 @@ class MK_EDF(Scheduler):
                 1 if x is cpu else 0
             )
             cpu_min = max(self.processors, key=key)
-            ####################################################### end junk chunk #######################################################
 
 
             # Select the job with the least priority:

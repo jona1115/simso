@@ -1,3 +1,8 @@
+"""
+@author Jonathan Tan (@jona1115 on GitHub)
+@date 12/09/2025
+"""
+
 from collections import deque
 
 from simso.core import Scheduler

@@ -1,11 +1,14 @@
+"""
+@author Jonathan Tan (@jona1115 on GitHub)
+@date 12/09/2025
+"""
+
 from simso.core import Scheduler
 from simso.schedulers import scheduler
 
-from math import floor, ceil
-
 @scheduler("simso.schedulers.MK_RMS")
 class MK_RMS(Scheduler):
-    """ Rate monotonic with (m,k)-firm requirements """
+    """ Rate monotonic (RMS) with (m,k)-firm requirements """
     def init(self):
         self.ready_list = []
 
